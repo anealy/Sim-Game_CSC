@@ -11,10 +11,17 @@
 #^ example comments. add a character (specifically space) before the hash#.
 
 
+#TODO - INTRO
 #TODO - classes for villans at least 
 #TODO - class for heros. 3x character variables
-#TODO - lore - endgame. die, become lame monster
+#TODO - lore - 
+    #TODO - mainques
+    #TODO - sidequest
+#TODO - ENDGAME. die, become lame monster
 #TODO - battle loop
 #TODO - status effects
 #TODO - heal items #potions - eat frog.
-#TODO - 
+#TODO - rooms
+
+
+

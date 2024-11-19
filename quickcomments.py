@@ -22,6 +22,9 @@
 #TODO - status effects
 #TODO - heal items #potions - eat frog.
 #TODO - rooms
+    #TODO - basic help typing - show all room commands
+    #TODO - room commands
+    #TODO - 
 
 #idea,-writing and reading save files.-
 

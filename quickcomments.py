@@ -23,5 +23,6 @@
 #TODO - heal items #potions - eat frog.
 #TODO - rooms
 
+#idea,-writing and reading save files.-
 
 

@@ -1,18 +1,27 @@
 import random
 
-class Monster:
+class Being:
     def __init__(self):
         self.hp = 10
-        self.strength = 7
+        self.strength = 2
+        self.STR_mod = 0
+
+
+class Monster(Being): x
+    def __init__(self):
+        super().__init__(self,streng):
+        self.hp = 10
+        self.strength = 2
         
-        self.defense = 12
+
 
 class Hero:
     def __init__(self):
+        
         self.hp = 54
-        self.strength = 7
+        self.strength = 2
 
-        self.defense = 18
+
 
 def d20():
     num = random.randrange(1,20)
@@ -38,17 +47,16 @@ class Room:
         self.monster = Monster()
         self.hero = Hero()
         self.treasure = "gold coins"
+        self.seen_rooms = "seen_rooms"
     def battle(self):
       hroll = d20()
       vroll = d20()  
       if(hroll > vroll):
           self.hero.attack(self)
 
+
+
+
+
+
 def main():
-
-        
-
-
-
-        
-

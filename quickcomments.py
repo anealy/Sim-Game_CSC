@@ -15,7 +15,7 @@
 #TODO - classes for villans at least 
 #TODO - class for heros. 3x character variables
 #TODO - lore - 
-    #TODO - mainques
+    #TODO - mainquest
     #TODO - sidequest
 #TODO - ENDGAME. die, become lame monster
 #TODO - battle loop

@@ -38,13 +38,19 @@ Charecter4 = {
     "Starting potion": "N/A"
 }
 
-import tkinter as tk
+class Being:
+    def __init__(self):
+        self.hp = 10
+        self.strength = 2
+        self.STR_mod = 0
 
-window = tk.Tk() 
 
-frame2 = tk.Frame(master=window, width=25, height=25, bg="yellow")
-frame2.pack(fill=tk.BOTH, side=tk.LEFT)
-frame3 = tk.Frame(master=window, width=25, height=25, bg="black")
-frame3.pack(fill=tk.BOTH, side=tk.LEFT)
+class Items:
+    def __init__(self):
+        Sword.attack = 0 - 5
 
-window.mainloop()
+        
+        self.STR_mod = Sword.attack
+        self.DEF_mod = Shield.defense
+        self.HLTH_mod = Potion.effect
+        

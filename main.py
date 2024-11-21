@@ -5,7 +5,6 @@ class Being:
         self.hp =  10
         self.Str = 2
         self.STR_MOD = Str_mod #default 0
-        
 
 
 class Monster(Being): 

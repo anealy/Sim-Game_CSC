@@ -73,7 +73,7 @@ class Room:
 
 b = Being() #test being
 b.hp = "j"
-
+#"beep poop"
 
 
 # def main():

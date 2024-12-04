@@ -1,0 +1,51 @@
+
+
+def attack(self, enemy):
+        damage = random.randint(10, 10+self.attack_points) + self.item_mod # Random damage between 10 and attack points
+        print(f"{self.name} attacks {enemy.name} for {damage} damage.")
+        monster.take_damage(damage)
+
+
+def take_damage(self, damage):
+        self.health -= damage
+        print(f"{self.name} takes {damage} damage and now has {self.health} HP left.")
+        
+
+class Monster:
+    def __init__(self, name, health, attack_points):
+        self.name = name
+        self.health = health
+        self.attack_points = attack_points
+
+
+class Character:
+    def __init__(self, name, health, attack_points, inventory=None):
+        if inventory is None:
+            inventory = []
+        self.name = name
+        self.health = health
+        self.attack_points = attack_points
+        self.inventory = inventory  # Inventory is a list of items (strings)
+
+
+
+def use_item(self, item):
+        if item == "potion":
+            heal = random.randint(1, 10)  # Heal between 1 and 10
+            self.health += heal
+            print(f"{self.name} uses a potion and heals for {heal} HP. Total HP is now {self.health}.")
+        elif item == "short sword":
+            bonus_damage = random.randint(5, 15)  # Bonus damage between 5 and 15
+            self.attack_points += bonus_damage
+            print(f"{self.name} equips a short sword, increasing attack power by {bonus_damage}. New attack power is {self.attack_points}.")
+        elif item == "long sword":
+            bonus_damage = random.randint(10, 20)  # Bonus damage between 5 and 15
+            self.attack_points += bonus_damage
+            print(f"{self.name} equips a long sword, increasing attack power by {bonus_damage}. New attack power is {self.attack_points}.")
+            self.item_mod = 5
+    
+    
+    
+
+
+    

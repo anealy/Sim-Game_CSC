@@ -3,15 +3,15 @@ import random
 class Being:
     def __init__(self):
         self.hp =  10
-        self.Str = 2
-        self.STR_MOD = 0 #default 0
+        self.attack_points = 2
+        self.item_mod = 0 #default 0
 
 
 class Monster(): 
     def __init__(self):
         self.hp =  15
-        self.Str = 4
-        self.STR_MOD = 0 
+        self.attack_points = 4
+        self.item_mod = 0 
 
 
 class Hero:
@@ -42,16 +42,19 @@ def attack(Room):
 
 def GAME_OVER():
     print("GAME OVER\n YOU DIED")
-    
+
 
 #^ battle, -> change "self" and change "Cenemy"
     #^your turn
         #^choose attack, or run
+    #^check if enemy is dead.
     #^enemy turn
         #^attack (or use ability under condition-possibly add a random function to ref here to randomize an unknown number of abilities within an enemy class.)
+    #^check if dead or smthn
 def battle (self, enemy):
     while True:
-        pass
+        while True:
+
 
 
 

@@ -37,20 +37,3 @@ Charecter4 = {
     "Starting weapon": "Shield",
     "Starting potion": "N/A"
 }
-
-class Being:
-    def __init__(self):
-        self.hp = 10
-        self.strength = 2
-        self.STR_mod = 0
-
-
-class Items:
-    def __init__(self):
-        Sword.attack = 0 - 5
-
-        
-        self.STR_mod = Sword.attack
-        self.DEF_mod = Shield.defense
-        self.HLTH_mod = Potion.effect
-        

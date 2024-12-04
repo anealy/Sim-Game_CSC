@@ -7,18 +7,16 @@ class Being:
         self.STR_MOD = 0 #default 0
 
 
-class Monster(Being): 
-    def __init__(self,Hp, Str, Str_mod):
-        super().__init__(self)
+class Monster(): 
+    def __init__(self):
         self.hp =  15
         self.Str = 4
         self.STR_MOD = 0 
-        
 
 
 class Hero:
     def __init__(self):
-        
+
         self.hp = 54
         self.strength = 2
 
@@ -32,7 +30,7 @@ def d8():
     num = random.randrange(1,8)
     return num
 
-def attack(Room()):
+def attack(Room):
     lroll = d20()
     if(lroll > 10):
         damage = d8()
@@ -71,7 +69,7 @@ class Room:
 
 
 b = Being() #test being
-b.hp = 
+b.hp = "j"
 
 
 

@@ -1,7 +1,17 @@
 # Game Version 2.0
 
 
+
 import random
+
+
+Charecter1 = {"Name": "John"}
+
+Charecter2 = {"Name": "Dylan"}
+
+Charecter3 = {"Name": "Sarah"}
+
+Charecter4 = {"Name": "Haley"}
 
 # Character Class
 class Character:
@@ -18,28 +28,16 @@ class Character:
         print(f"{self.name} attacks {monster.name} for {damage} damage.")
         monster.take_damage(damage)
     
-    def equip_item(self, item):
-        if item.name == "fists":
-            self.item_mod = 0
-        if item.name == "short sword":
-            self.item_mod = 2
-        if item.name == "long sword":
-            self.item_mod = 5
-
     def use_item(self, item):
-        if item == "potion":
+        if item == "Potion":
             heal = random.randint(0, 10)  # Heal between 0 and 10
             self.health += heal
             print(f"{self.name} uses a potion and heals for {heal} HP. Total HP is now {self.health}.")
-        elif item == "Potion":
-            heal = random.randint(0, 10)  # Heal between 0 and 10
-            self.health -= heal
-            print(f"{self.name} uses a potion and gets hurt for {heal} HP! Total HP is now {self.health}.")
-        elif item == "short sword":
+        elif item == "Short sword":
             bonus_damage = random.randint(5, 15)  # Bonus damage between 5 and 15
             self.attack_points += bonus_damage
             print(f"{self.name} equips a short sword, increasing attack power by {bonus_damage}. New attack power is {self.attack_points}.")
-        elif item == "long sword":
+        elif item == "Long sword":
             bonus_damage = random.randint(10, 20)  # Bonus damage between 10 and 20
             self.attack_points += bonus_damage
             print(f"{self.name} equips a long sword, increasing attack power by {bonus_damage}. New attack power is {self.attack_points}.")
@@ -85,7 +83,7 @@ def battle(character, monster):
         user_choice = input("\nDo you want to use an item from your inventory? (yes/no): ").strip().lower()
         
         if user_choice == 'yes':
-            item_choice = input("Which item would you like to use? (potion/Potion/short sword/long sword): ").strip().lower()
+            item_choice = input("Which item would you like to use? (Potion/Long sword/Short sword): ").strip().lower()
             if item_choice in character.inventory:
                 character.use_item(item_choice)
                 character.inventory.remove(item_choice)  # Remove the used item from inventory
@@ -113,8 +111,8 @@ def battle(character, monster):
 # Main Function
 def main():
     # Create the character and monster
-    character_name = input("Enter your character's name: ")
-    character = Character(character_name, 100, 20, inventory=["potion", "short sword", "long sword", "Potion"])
+    character_name = input(f"Choose your Character: {Charecter1}, {Charecter2}, {Charecter3}, {Charecter4}: ")
+    character = Character(character_name, 100, 20, inventory=["Potion", "Short sword", "Long sword"])
     
     monster = Monster("Goblin", 80, 20)  # Monster starts with 80 HP and 20 attack points
     

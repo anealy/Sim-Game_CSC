@@ -22,15 +22,7 @@ def d8():
     num = random.randrange(1,8)
     return num
 
-def attack(Room()):
-    lroll = d20()
-    if(lroll > 10):
-        damage = d8()
-        print("")
-    if(lroll == 20):
-        damage = 2 * d8()
-    if(lroll <= 10):
-        print(f"")
+
 
 
 class Room:
@@ -44,7 +36,25 @@ class Room:
       if(hroll > vroll):
           self.hero.attack(self)
 
+def attack(Room()):
+    lroll = d20()
+    if(lroll > 10):
+        damage = d8()
+        print("")
+    if(lroll == 20):
+        damage = 2 * d8()
+    if(lroll <= 10):
+        print(f"")
+
+A1 = Room()
+A2 = Room()
+B1 = Room()
+B2 = Room()
+B3 = Room()
+
+
 def main():
+    currentroom = 
 
         
 

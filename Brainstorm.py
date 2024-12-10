@@ -337,16 +337,16 @@ if __name__ == "__main__":
 
 
 
-KP_Up	80	65431	↑ on the keypad
+# KP_Up	80	65431	↑ on the keypad
 
-KP_Down	88	65433	↓ on the keypad
+# KP_Down	88	65433	↓ on the keypad
 
-KP_Left	83	65430	← on the keypad
+# KP_Left	83	65430	← on the keypad
 
-KP_Right	85	65432	→ on the keypad
+# KP_Right	85	65432	→ on the keypad
 
-Double	Specifies two events happening close together in time. For example, <Double-Button-1> describes two presses of button 1 in rapid succession.
+# Double	Specifies two events happening close together in time. For example, <Double-Button-1> describes two presses of button 1 in rapid succession.
 
-19	Map	A widget is being mapped, that is, made visible in the application. This will happen, for example, when you call the widget's .grid() method.
+# 19	Map	A widget is being mapped, that is, made visible in the application. This will happen, for example, when you call the widget's .grid() method.
 
-Unmap	A widget is being unmapped and is no longer visible. This happens, for example, when you use the widget's .grid_remove() method.
+# Unmap	A widget is being unmapped and is no longer visible. This happens, for example, when you use the widget's .grid_remove() method.

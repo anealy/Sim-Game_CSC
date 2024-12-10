@@ -1,3 +1,4 @@
+
 import random
 
 
@@ -47,7 +48,7 @@ class Character:
         return self.health > 0
     
     def display_inventory(self):
-        if not self.inventory:
+        if not self.inventory:    #! boolean check if inventory exists
             print(f"{self.name}'s inventory is empty.")
         else:
             print(f"{self.name}'s inventory: {self.inventory}")

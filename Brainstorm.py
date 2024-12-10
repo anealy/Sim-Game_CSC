@@ -234,20 +234,6 @@ class Hero:
 
 
 
-
-
-class EndRoom:
-    def __init__(self):
-        self.monster = Boss()
-        self.hero = Hero()
-        self.end_rooms = "end_room"
-    def battle(self):
-      hroll = d20()
-      vroll = d20()  
-      if(hroll > vroll):
-          self.hero.attack(self)
-
-
 #! Possible Game
 
 import random

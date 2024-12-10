@@ -59,24 +59,19 @@ roomlist = {
     "A2":{"Name":"A2", "South": "B3"},
     "B1":{"Name":"B1","East": "B2","South": "C1"},
     "B2":{"Name":"B2","East": "B3","West": "B1","South": "C2","North": "A1"},
-    "B3":{"Name":"B3", "North": "A2","West": "B2","Search": "C2"},
-    "C1":{"Name":"C1", "North": "B1", "South": "D1", "East":"C2"},
-    "C2":{"Name":"C2", "North": "B2", "South": "D2", "West": "C1", "Search": "B3"},
-    "D1":{"Name":"D1", "North": "C1", "South":"E2", "East": "D2"},
-    "D2":{"Name":"D2", "North":"C2", "South": "E3", "West":"D1"},
-    "E1":{"Name":"E1", "East": "E2"},
-    "E2":{"Name": "E2", "North": "D1", "East": "E3", "South": "F1", "West": "E1"},
-    "E3":{"Name": "E3", "North": "D2", "East": "E4", "West": "E2", "Search": "F1"},
-    "E4":{"Name": "E4", "West": "E3"},
-    "F1":{"Name": "F1", "North": "E2", "South": "G1", "Search": "E3"},
-    "G1":{"Name": "G1", "North": "F1"}
+    "B3":{"Name":"B3", "North": "A2","West": "B2","Search": "C3"},
+    "C1":{"Name":"C1","East": "C2"},
+    "C2":{"Name":"C2","North": "B1", "East": "C3", "West": "C1", "Search": "D1"},
+    "C3":{"Name":"C3","East": "C4", "West": "C2", "Search": "B3"},
+    "C4":{"Name":"C4", "West": "C3"},
+    "D1":{"Name":"D1", "Search": "C2"}
 }
 directions = ("North", "South", "East", "West", "Search")
 currentroom = roomlist["B3"]
 
 def move():
     global currentroom
-    print("\n\nYou can check North, South, East, West, or Search")
+    print("\n\nYou can check North, East, South, West, or Search")
     print("Finished")
     print(currentroom["Name"])   #take out later. debug
     print("What direction would you like to move?: ")

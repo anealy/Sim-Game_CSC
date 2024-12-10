@@ -73,7 +73,7 @@ currentroom = roomlist["B3"]
 
 isbattle = False
 def pick():
-    global battle
+    global isbattle
     r = random.randrange(1,10)
     if(r >= 1 and r <= 4):
         isbattle = False

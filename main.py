@@ -69,7 +69,7 @@ roomlist = {
 directions = ("North", "South", "East", "West", "Search")
 currentroom = roomlist["B3"]
 
-# Call pick and check battle value 
+# Call pick and check isbattle value 
 
 isbattle = False
 def pick():

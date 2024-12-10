@@ -1,4 +1,7 @@
 import random
+import tkinter as tk
+from tkinter import messagebox
+
 
 class Being:
     def __init__(self):
@@ -22,27 +25,8 @@ class Hero:
 
 
 
-def d20():
-    num = random.randrange(1,20)
-    return num
 
-def d8():
-    num = random.randrange(1,8)
-    return num
 
-<<<<<<< HEAD
-
-=======
-def attack(Room):
-    lroll = d20()
-    if(lroll > 10):
-        damage = d8()
-        print("")
-    if(lroll == 20):
-        damage = 2 * d8()
-    if(lroll <= 10):
-        print(f"")
->>>>>>> 8ec72bcbcf095a9533114cb2c760b1198136f425
 
 def GAME_OVER():
     print("GAME OVER\n YOU DIED")
@@ -55,58 +39,90 @@ def GAME_OVER():
     #^enemy turn
         #^attack (or use ability under condition-possibly add a random function to ref here to randomize an unknown number of abilities within an enemy class.)
     #^check if dead or smthn
-def battle (self, enemy):
-    while True:
-        while True:
 
 
 
 
-class Room:
-    def __init__(self):
-        self.monster = "none"
-        self.hero = False
-        self.treasure = "coins"
-        self.seen_rooms = "seen_rooms"
-    def battle(self):
-      hroll = d20()
-      vroll = d20()  
-      if(hroll > vroll):
-          self.hero.attack(self)
-
-<<<<<<< HEAD
-def attack(Room()):
-    lroll = d20()
-    if(lroll > 10):
-        damage = d8()
-        print("")
-    if(lroll == 20):
-        damage = 2 * d8()
-    if(lroll <= 10):
-        print(f"")
-
-A1 = Room()
-A2 = Room()
-B1 = Room()
-B2 = Room()
-B3 = Room()
 
 
-def main():
-    currentroom = 
-=======
->>>>>>> 8ec72bcbcf095a9533114cb2c760b1198136f425
-
-b = Being() #test being
-b.hp = "j"
+#b = Being() #test being
+#b.hp = "j"
 #"beep poop"
 
 
 # def main():
 
-import random
-import tkinter as tk
-from tkinter import messagebox
+
+#Movement
+roomlist = {
+    "A1":{"Name":"A1","South": "B2"},
+    "A2":{"Name":"A2", "South": "B3"},
+    "B1":{"Name":"B1","East": "B2","South": "C1"},
+    "B2":{"Name":"B2","East": "B3","West": "B1","South": "C2","North": "A1"},
+    "B3":{"Name":"B3", "North": "A2","West": "B2","Search": "C2"},
+    "C1":{"Name":"C1", "North": "B1", "South": "D1", "East":"C2"},
+    "C2":{"Name":"C2", "North": "B2", "South": "D2", "West": "C1", "Search": "B3"},
+    "D1":{"Name":"D1", "North": "C1", "South":"E2", "East": "D2"},
+    "D2":{"Name":"D2", "North":"C2", "South": "E3", "West":"D1"},
+    "E1":{"Name":"E1", "East": "E2"},
+    "E2":{"Name": "E2", "North": "D1", "East": "E3", "South": "F1", "West": "E1"},
+    "E3":{"Name": "E3", "North": "D2", "East": "E4", "West": "E2", "Search": "F1"},
+    "E4":{"Name": "E4", "West": "E3"},
+    "F1":{"Name": "F1", "North": "E2", "South": "G1", "Search": "E3"},
+    "G1":{"Name": "G1", "North": "F1"}
+}
+directions = ("North", "South", "East", "West", "Search")
+currentroom = roomlist["B3"]
+
+def move():
+    global currentroom
+    print("\n\nYou can check North, South, East, West, or Search")
+    print("Finished")
+    print(currentroom["Name"])   #take out later. debug
+    print("What direction would you like to move?: ")
+    direction = input().title()
+    if(direction in directions):
+        if(direction in currentroom.keys()):
+            print(f"You take the {direction} corridor")
+            newroom = currentroom[direction]   #set where destination is
+            for x in roomlist:   #check for location of destination
+                print(newroom) #this is a debug print
+                if x == newroom:    #loop through indiv room libraries
+                    print("HI")  #debug print
+                    currentroom = roomlist[x]
+                    print(" " + currentroom["Name"])
+
+
+
+            print(f"You are in room {currentroom["Name"]}")  #currentroom["Name"] is to ref name of current room
+        
+        else:
+            print("You can't move that way")
+            print(f"You are in room {currentroom['Name']}")
+            
+    else:
+        print("You can't move that way")
+        print(f"You are in room {currentroom['Name']}")
+        
+
+
+
+
+# root = tk.Tk()
+
+# text = tk.Text(root)
+# text.pack()
+
+# old_stdout = sys.stdout    
+# sys.stdout = Redirect(text)
+
+# root.mainloop()
+
+# sys.stdout = old_stdout
+
+
+
+
 
 # Character Class
 class Character:

@@ -98,7 +98,7 @@ class GameApp:
         self.intro_frame = tk.Frame(self.root)
         self.intro_frame.pack(padx=20, pady=20)
 
-        intro_label = tk.Label(self.intro_frame, text="Welcome to the Battle Game!\nDefeat monsters and level up!", font=("Arial", 16))
+        intro_label = tk.Label(self.intro_frame, text="Welcome to the Battle Game!\nDefeat monsters and try to win!", font=("Arial", 16))
         intro_label.pack(pady=20)
 
         start_button = tk.Button(self.intro_frame, text="Start Game", command=self.create_name_screen)
@@ -140,7 +140,7 @@ class GameApp:
         self.character_health_bar = tk.Canvas(self.battle_frame, width=self.health_bar_width, height=20, bg="red")
         self.character_health_bar.pack(pady=5)
 
-        self.monster_health_label = tk.Label(self.battle_frame, text="Monster Health:")
+        self.monster_health_label = tk.Label(self.battle_frame, text="Goblin Health:")
         self.monster_health_label.pack(pady=5)
 
         self.monster_health_bar = tk.Canvas(self.battle_frame, width=self.health_bar_width, height=20, bg="green")

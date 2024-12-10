@@ -69,14 +69,16 @@ roomlist = {
 directions = ("North", "South", "East", "West", "Search")
 currentroom = roomlist["B3"]
 
-battle = False
+# Call pick and check battle value 
+
+isbattle = False
 def pick():
     global battle
     r = random.randrange(1,10)
     if(r >= 1 and r <= 4):
-        battle = False
+        isbattle = False
     else:
-        battle = True
+        isbattle = True
 
 
 def move():

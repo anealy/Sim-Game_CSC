@@ -1,393 +1,291 @@
-import random
 import tkinter as tk
 from tkinter import messagebox
+import random
 
-
-class Being:
-    def __init__(self):
-        self.hp =  10
-        self.attack_points = 2
-        self.item_mod = 0 #default 0
-
-
-class Monster(): 
-    def __init__(self):
-        self.hp =  15
-        self.attack_points = 4
-        self.item_mod = 0 
-
-
-class Hero:
-    def __init__(self):
-        
-        self.hp = 54
-        self.strength = 2
-
-
-
-
-
-
-def GAME_OVER():
-    print("GAME OVER\n YOU DIED")
-
-
-#^ battle, -> change "self" and change "Cenemy"
-    #^your turn
-        #^choose attack, or run
-    #^check if enemy is dead.
-    #^enemy turn
-        #^attack (or use ability under condition-possibly add a random function to ref here to randomize an unknown number of abilities within an enemy class.)
-    #^check if dead or smthn
-
-
-
-
-
-
-#b = Being() #test being
-#b.hp = "j"
-#"beep poop"
-
-
-# def main():
-
-
-#Movement
-roomlist = {
-    "A1":{"Name":"A1","South": "B2"},
-    "A2":{"Name":"A2", "South": "B3"},
-    "B1":{"Name":"B1","East": "B2","South": "C1"},
-    "B2":{"Name":"B2","East": "B3","West": "B1","South": "C2","North": "A1"},
-    "B3":{"Name":"B3", "North": "A2","West": "B2","Search": "C2"},
-    "C1":{"Name":"C1", "North": "B1", "South": "D1", "East":"C2"},
-    "C2":{"Name":"C2", "North": "B2", "South": "D2", "West": "C1", "Search": "B3"},
-    "D1":{"Name":"D1", "North": "C1", "South":"E2", "East": "D2"},
-    "D2":{"Name":"D2", "North":"C2", "South": "E3", "West":"D1"},
-    "E1":{"Name":"E1", "East": "E2"},
-    "E2":{"Name": "E2", "North": "D1", "East": "E3", "South": "F1", "West": "E1"},
-    "E3":{"Name": "E3", "North": "D2", "East": "E4", "West": "E2", "Search": "F1"},
-    "E4":{"Name": "E4", "West": "E3"},
-    "F1":{"Name": "F1", "North": "E2", "South": "G1", "Search": "E3"},
-    "G1":{"Name": "G1", "North": "F1"}
-}
-directions = ("North", "South", "East", "West", "Search")
-currentroom = roomlist["B3"]
-
-def move():
-    global currentroom
-    print("\n\nYou can check North, South, East, West, or Search")
-    print("Finished")
-    print(currentroom["Name"])   #take out later. debug
-    print("What direction would you like to move?: ")
-    direction = input().title()
-    if(direction in directions):
-        if(direction in currentroom.keys()):
-            print(f"You take the {direction} corridor")
-            newroom = currentroom[direction]   #set where destination is
-            for x in roomlist:   #check for location of destination
-                print(newroom) #this is a debug print
-                if x == newroom:    #loop through indiv room libraries
-                    print("HI")  #debug print
-                    currentroom = roomlist[x]
-                    print(" " + currentroom["Name"])
-
-
-
-            print(f"You are in room {currentroom["Name"]}")  #currentroom["Name"] is to ref name of current room
-        
-        else:
-            print("You can't move that way")
-            print(f"You are in room {currentroom['Name']}")
-            
-    else:
-        print("You can't move that way")
-        print(f"You are in room {currentroom['Name']}")
-        
-
-
-
-
-# root = tk.Tk()
-
-# text = tk.Text(root)
-# text.pack()
-
-# old_stdout = sys.stdout    
-# sys.stdout = Redirect(text)
-
-# root.mainloop()
-
-# sys.stdout = old_stdout
-
-
-
-
-
-# Character Class
-class Character:
-    def __init__(self, name, health, attack_points, inventory=None):
-        if inventory is None:
-            inventory = []
-        self.name = name
-        self.health = health
-        self.attack_points = attack_points
-        self.inventory = inventory  # Inventory is a list of items (strings)
-        self.equipped_item = None  # To track the currently equipped item
-        self.potion_used = False  # To track if potion has been used
-
-    def attack(self, monster):
-        damage = random.randint(0, self.attack_points)  # Random damage between 0 and attack points
-        monster.take_damage(damage)
-        return damage
-    
-    def use_item(self, item):
-        if item == "potion" and not self.potion_used:
-            heal = random.randint(5, 10)  # Heal between 5 and 10
-            self.health += heal
-            self.potion_used = True
-            return heal, "heals"
-
-        elif item == "potion" and self.potion_used:
-            return 0, "already used"
-
-        elif item == "long sword":
-            if self.equipped_item != "long sword":
-                self.attack_points += random.randint(10, 20)  # Long Sword increases attack power
-                self.equipped_item = "long sword"
-                return self.attack_points, "equipped long sword"
-            else:
-                return 0, "already equipped"
-
-        elif item == "short sword":
-            if self.equipped_item != "short sword":
-                self.attack_points += random.randint(5, 10)  # Short Sword increases attack power
-                self.equipped_item = "short sword"
-                return self.attack_points, "equipped short sword"
-            else:
-                return 0, "already equipped"
-    
-    def unequip_item(self):
-        if self.equipped_item == "long sword":
-            self.attack_points -= random.randint(10, 20)
-            self.equipped_item = None
-            return "unequipped long sword"
-        elif self.equipped_item == "short sword":
-            self.attack_points -= random.randint(5, 10)
-            self.equipped_item = None
-            return "unequipped short sword"
-        else:
-            return "no item equipped"
-
-    def take_damage(self, damage):
-        self.health -= damage
-    
-    def is_alive(self):
-        return self.health > 0
-
-# Monster Class
-class Monster:
-    def __init__(self, name, health, attack_points):
-        self.name = name
-        self.health = health
-        self.attack_points = attack_points
-    
-    def attack(self, character):
-        damage = random.randint(0, self.attack_points)  # Random damage between 0 and attack points
-        character.take_damage(damage)
-        return damage
-    
-    def take_damage(self, damage):
-        self.health -= damage
-    
-    def is_alive(self):
-        return self.health > 0
-
-# GUI Application Class
-class GameApp:
+class Game:
     def __init__(self, root):
         self.root = root
-        self.root.title("Battle Game")
-        
-        self.character = None
-        self.monster = None
-        
-        self.health_bar_width = 200
-        self.create_intro_screen()
+        self.root.title("Dungeon Adventure Game")
 
-    def create_intro_screen(self):
-        """ Create the introductory screen """
-        self.intro_frame = tk.Frame(self.root)
-        self.intro_frame.pack(padx=20, pady=20)
+        # Game state
+        self.character_name = ""
+        self.character_strength = 0
+        self.character_health = 100
+        self.inventory = {'Long Sword': 1, 'Bow and Arrow': 1, 'Potion': 3}  # Bow and Arrow replaces Short Sword
+        self.equipped_weapon = None
+        self.current_room = 'A1'
+        self.is_fighting = False
+        self.goblin_health = 0
+        self.goblin_damage = 0
+        self.monster_name = ""  # This will hold the randomized monster name
+        self.bow_and_arrow_turns = 0  # Track consecutive turns when using Bow and Arrow
 
-        intro_label = tk.Label(self.intro_frame, text="Welcome to the Battle Game!\nDefeat monsters and level up!", font=("Arial", 16))
-        intro_label.pack(pady=20)
+        self.grid = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6',
+                     'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
+                     'C1', 'C2', 'C3', 'C4', 'C5', 'C6',
+                     'D1', 'D2', 'D3', 'D4', 'D5', 'D6',
+                     'E1', 'E2', 'E3', 'E4', 'E5', 'E6',
+                     'F1', 'F2', 'F3', 'F4']
 
-        start_button = tk.Button(self.intro_frame, text="Start Game", command=self.create_name_screen)
-        start_button.pack(pady=10)
+        self.create_start_screen()
 
-    def create_name_screen(self):
-        """ Create the screen to ask for the player's name """
-        self.intro_frame.destroy()  # Remove the intro screen
+    def create_start_screen(self):
+        """Create the initial start screen where the player enters their name."""
+        self.clear_window()
 
-        self.name_frame = tk.Frame(self.root)
-        self.name_frame.pack(padx=20, pady=20)
+        tk.Label(self.root, text="Welcome to Dungeon Adventure!", font=("Arial", 20)).pack(pady=20)
 
-        name_label = tk.Label(self.name_frame, text="Enter your character's name:", font=("Arial", 14))
-        name_label.pack(pady=10)
+        tk.Label(self.root, text="Enter your character's name:").pack(pady=5)
+        self.character_name_entry = tk.Entry(self.root)
+        self.character_name_entry.pack(pady=10)
 
-        self.name_entry = tk.Entry(self.name_frame, font=("Arial", 14))
-        self.name_entry.pack(pady=10)
-
-        submit_button = tk.Button(self.name_frame, text="Submit", command=self.start_game)
-        submit_button.pack(pady=10)
+        # Create Start Game Button and store it in self.start_button
+        self.start_button = tk.Button(self.root, text="Start Game", command=self.start_game)
+        self.start_button.pack(pady=20)
 
     def start_game(self):
-        """ Start the game after the player enters their name """
-        character_name = self.name_entry.get() or "Hero"  # Default name if none is provided
-        self.character = Character(character_name, 100, 20, inventory=["potion", "short sword", "long sword", "potion"])
-        self.monster = Monster("Goblin", 80, 15)
+        """Start the game by setting up the character stats."""
+        self.character_name = self.character_name_entry.get()
+        if not self.character_name:
+            messagebox.showerror("Error", "Please enter a character name.")
+            return
 
-        self.name_frame.destroy()  # Remove the name input screen
-        self.create_battle_screen()
+        # Set random base strength
+        self.character_strength = random.randint(5, 15)
 
-    def create_battle_screen(self):
-        """ Create the battle screen """
-        self.battle_frame = tk.Frame(self.root)
-        self.battle_frame.pack(padx=20, pady=20)
+        # Reset game state
+        self.character_health = 100
+        self.inventory = {'Long Sword': 1, 'Bow and Arrow': 1, 'Potion': 3}  # Start with 3 potions
+        self.equipped_weapon = None
+        self.current_room = 'A1'
+        self.bow_and_arrow_turns = 0  # Reset Bow and Arrow turns
 
-        self.health_label = tk.Label(self.battle_frame, text="Character Health:")
-        self.health_label.pack(pady=5)
+        self.show_room_options()
 
-        self.character_health_bar = tk.Canvas(self.battle_frame, width=self.health_bar_width, height=20, bg="red")
-        self.character_health_bar.pack(pady=5)
+    def show_room_options(self):
+        """Display the available rooms and direction buttons."""
+        self.clear_window()
 
-        self.monster_health_label = tk.Label(self.battle_frame, text="Monster Health:")
-        self.monster_health_label.pack(pady=5)
+        tk.Label(self.root, text=f"{self.character_name}'s current room: {self.current_room}", font=("Arial", 16)).pack(pady=20)
 
-        self.monster_health_bar = tk.Canvas(self.battle_frame, width=self.health_bar_width, height=20, bg="green")
-        self.monster_health_bar.pack(pady=5)
+        # Show available directions based on the current room
+        directions = self.get_available_directions(self.current_room)
 
-        self.fight_button = tk.Button(self.battle_frame, text="Fight", state=tk.NORMAL, command=self.fight)
-        self.fight_button.pack(pady=5)
+        for direction in directions:
+            tk.Button(self.root, text=f"Go {direction}", command=lambda dir=direction: self.move(dir)).pack(pady=5)
 
-        self.pass_button = tk.Button(self.battle_frame, text="Pass", state=tk.NORMAL, command=self.pass_turn)
-        self.pass_button.pack(pady=5)
+        tk.Button(self.root, text="Quit", command=self.quit_game).pack(pady=20)
 
-        self.items_button = tk.Button(self.battle_frame, text="Items", state=tk.NORMAL, command=self.open_items_menu)
-        self.items_button.pack(pady=5)
+    def move(self, direction):
+        """Move the player to a new room and handle potential encounters."""
+        new_room = self.get_new_room(self.current_room, direction)
+        self.current_room = new_room
 
-        self.update_health_bars()
-
-    def update_health_bars(self):
-        """ Update the health bars of both the character and the monster """
-        # Update character health bar
-        character_health_percentage = (self.character.health / 100) * 200
-        self.character_health_bar.coords(self.character_health_bar.create_rectangle(0, 0, character_health_percentage, 20, fill="blue"))
-
-        # Update monster health bar
-        monster_health_percentage = (self.monster.health / 80) * 200
-        self.monster_health_bar.coords(self.monster_health_bar.create_rectangle(0, 0, monster_health_percentage, 20, fill="black"))
-
-    def open_items_menu(self):
-        """ Open the items menu to allow the player to select an item """
-        self.items_window = tk.Toplevel(self.root)
-        self.items_window.title("Items Menu")
-
-        tk.Button(self.items_window, text="Use Potion", command=self.use_potion).pack(pady=5)
-        tk.Button(self.items_window, text="Equip Long Sword", command=self.equip_long_sword).pack(pady=5)
-        tk.Button(self.items_window, text="Equip Short Sword", command=self.equip_short_sword).pack(pady=5)
-        tk.Button(self.items_window, text="Unequip Current Item", command=self.unequip_item).pack(pady=5)
-
-    def use_potion(self):
-        if "potion" in self.character.inventory:
-            heal, action = self.character.use_item("potion")
-            self.update_health_bars()
-            if heal:
-                messagebox.showinfo("Potion Used", f"You used a potion and {action}. Your health is now {self.character.health}.")
-                self.character.inventory.remove("potion")
-            else:
-                messagebox.showinfo("Potion", "You've already used a potion in this fight.")
-            self.items_window.destroy()
-        else:
-            messagebox.showwarning("Potion", "You don't have any potions left.")
-    
-    def equip_long_sword(self):
-        if "long sword" in self.character.inventory:
-            if self.character.equipped_item:
-                self.character.unequip_item()  # Unequip any current item
-            damage, action = self.character.use_item("long sword")
-            self.update_health_bars()
-            messagebox.showinfo("Sword Equipped", f"You {action}. Your attack power is now {self.character.attack_points}.")
-            self.items_window.destroy()
-        else:
-            messagebox.showwarning("No Long Sword", "You don't have a long sword in your inventory.")
-    
-    def equip_short_sword(self):
-        if "short sword" in self.character.inventory:
-            if self.character.equipped_item:
-                self.character.unequip_item()  # Unequip any current item
-            damage, action = self.character.use_item("short sword")
-            self.update_health_bars()
-            messagebox.showinfo("Sword Equipped", f"You {action}. Your attack power is now {self.character.attack_points}.")
-            self.items_window.destroy()
-        else:
-            messagebox.showwarning("No Short Sword", "You don't have a short sword in your inventory.")
-
-    def unequip_item(self):
-        if self.character.equipped_item:
-            message = self.character.unequip_item()
-            self.update_health_bars()
-            messagebox.showinfo("Item Unequipped", f"You {message}. Your attack power is now {self.character.attack_points}.")
-        else:
-            messagebox.showinfo("No Item Equipped", "You don't have any item equipped.")
-        self.items_window.destroy()
-
-    def fight(self):
-        damage = self.character.attack(self.monster)
-        self.update_health_bars()
-        messagebox.showinfo("Fight", f"You attacked the monster for {damage} damage!")
-
-        if self.monster.is_alive():
-            monster_damage = self.monster.attack(self.character)
-            self.update_health_bars()
-            messagebox.showinfo("Monster Attacks", f"The monster attacked you for {monster_damage} damage!")
-        
-        if self.character.is_alive() and self.monster.is_alive():
-            self.ask_use_item()
-        else:
+        # Check if the player reached the end room (F4)
+        if self.current_room == 'F4':
             self.end_game()
 
-    def pass_turn(self):
-        self.pass_button.config(state=tk.DISABLED)
-        self.fight_button.config(state=tk.NORMAL)
-        self.ask_use_item()
-
-    def ask_use_item(self):
-        """ Ask if the player wants to use an item """
-        self.items_button.config(state=tk.NORMAL)
-        
-    def end_game(self):
-        """ End the game and show a message box """
-        if self.character.is_alive():
-            messagebox.showinfo("Victory", f"Congratulations! You defeated the {self.monster.name}.")
+        # Check if there's a monster in the room
+        elif random.random() < 0.25:  # 25% chance for a monster to spawn in a room
+            self.enter_battle()
         else:
-            messagebox.showinfo("Defeat", f"You were defeated by {self.monster.name}. Game Over.")
-        
-        self.reset_game()
+            self.show_room_options()
 
-    def reset_game(self):
-        """ Reset the game after it ends """
-        self.start_button.config(state=tk.NORMAL)
-        self.fight_button.config(state=tk.DISABLED)
-        self.pass_button.config(state=tk.DISABLED)
-        self.items_button.config(state=tk.DISABLED)
+    def get_new_room(self, current_room, direction):
+        """Calculate the new room based on the direction."""
+        rows = ['A', 'B', 'C', 'D', 'E', 'F']
+        columns = ['1', '2', '3', '4']
 
-# Main Tkinter Application
-def main():
-    root = tk.Tk()
-    app = GameApp(root)
-    root.mainloop()
+        row, col = current_room[0], current_room[1]
+        row_idx, col_idx = rows.index(row), columns.index(col)
 
-if __name__ == "__main__":
-    main()
+        if direction == "North" and row_idx > 0:
+            new_row = rows[row_idx - 1]
+            return f"{new_row}{col}"
+        elif direction == "South" and row_idx < len(rows) - 1:
+            new_row = rows[row_idx + 1]
+            return f"{new_row}{col}"
+        elif direction == "East" and col_idx < len(columns) - 1:
+            new_col = columns[col_idx + 1]
+            return f"{row}{new_col}"
+        elif direction == "West" and col_idx > 0:
+            new_col = columns[col_idx - 1]
+            return f"{row}{new_col}"
+        return current_room  # If out of bounds, return current room
+
+    def enter_battle(self):
+        """Enter battle if a monster spawns in the room."""
+        self.is_fighting = True
+        self.monster_name = random.choice(["Cave Spider", "Skeleton", "Zombie", "Goblin", "Troll", "Prof. Kuznicki"])
+        self.goblin_health = 100
+        self.goblin_damage = random.randint(0, 15)
+        self.bow_and_arrow_turns = 0  # Reset consecutive attacks for Bow and Arrow
+        self.goblins_attack()
+
+    def goblins_attack(self):
+        """Initiate combat between the character and the monster."""
+        if self.character_health <= 0:
+            self.character_death()
+            return
+
+        # Display fight screen
+        self.clear_window()
+        tk.Label(self.root, text=f"You encountered a {self.monster_name}!", font=("Arial", 16)).pack(pady=20)
+
+        # Show inventory items and action buttons
+        tk.Button(self.root, text="Attack", command=self.attack).pack(pady=5)
+        tk.Button(self.root, text="Use Potion", command=self.use_potion).pack(pady=5)
+        tk.Button(self.root, text="Equip Long Sword", command=self.equip_long_sword).pack(pady=5)
+        tk.Button(self.root, text="Equip Bow and Arrow", command=self.equip_bow_and_arrow).pack(pady=5)
+        tk.Button(self.root, text="Unequip Weapon", command=self.unequip_weapon).pack(pady=5)
+
+        # Continue the fight if still alive
+        if self.goblin_health <= 0:
+            self.goblin_defeated()
+
+    def attack(self):
+        """Perform an attack with the equipped weapon."""
+        if self.equipped_weapon is None:
+            messagebox.showinfo("No weapon equipped", "You need to equip a weapon first!")
+            return
+
+        if self.equipped_weapon == "Bow and Arrow":
+            if self.bow_and_arrow_turns < 2:
+                # Calculate damage with Bow and Arrow
+                damage = random.randint(5, 10)
+                self.goblin_health -= damage
+                messagebox.showinfo(f"{self.monster_name} Attack", f"You attacked the {self.monster_name} for {damage} damage!")
+
+                self.bow_and_arrow_turns += 1  # Increment Bow and Arrow attack counter
+            else:
+                # After 2 attacks, switch to goblin's turn
+                self.bow_and_arrow_turns = 0
+                self.character_turn()
+        else:
+            # Calculate damage with Long Sword
+            damage = random.randint(15, 20)
+            self.goblin_health -= damage
+            messagebox.showinfo(f"{self.monster_name} Attack", f"You attacked the {self.monster_name} for {damage} damage!")
+
+            # Show updated health after the attack
+            self.show_health_status()
+
+            if self.goblin_health <= 0:
+                self.goblin_defeated()
+            else:
+                self.character_turn()
+
+    def character_turn(self):
+        """The monster counterattacks."""
+        if self.character_health <= 0:
+            self.character_death()
+            return
+
+        # Monster attacks
+        damage = random.randint(0, self.goblin_damage)
+        self.character_health -= damage
+        messagebox.showinfo(f"{self.monster_name} Attacks", f"The {self.monster_name} attacks you for {damage} damage!")
+
+        # Show updated health after the monster's attack
+        self.show_health_status()
+
+        if self.character_health <= 0:
+            self.character_death()
+        else:
+            self.goblins_attack()
+
+    def use_potion(self):
+        """Use a potion to heal the character."""
+        if self.inventory['Potion'] == 0:
+            messagebox.showinfo("No Potions", "You have no potions to use!")
+            return
+
+        # Heal the character
+        healing = random.randint(10, 20)
+        self.character_health += healing
+        self.inventory['Potion'] -= 1  # Decrease the potion count
+        messagebox.showinfo("Potion Used", f"You healed for {healing} health!\nPotions left: {self.inventory['Potion']}")
+
+        # Show updated health after using potion
+        self.show_health_status()
+
+        # Continue fight
+        self.character_turn()
+
+    def equip_long_sword(self):
+        """Equip the Long Sword."""
+        if self.inventory['Long Sword'] > 0:
+            self.equipped_weapon = "Long Sword"
+            messagebox.showinfo("Weapon Equipped", "You have equipped the Long Sword!")
+        else:
+            messagebox.showinfo("No Long Sword", "You don't have a Long Sword in your inventory!")
+
+    def equip_bow_and_arrow(self):
+        """Equip the Bow and Arrow."""
+        if self.inventory['Bow and Arrow'] > 0:
+            self.equipped_weapon = "Bow and Arrow"
+            messagebox.showinfo("Weapon Equipped", "You have equipped the Bow and Arrow!")
+        else:
+            messagebox.showinfo("No Bow and Arrow", "You don't have a Bow and Arrow in your inventory!")
+
+    def unequip_weapon(self):
+        """Unequip the current weapon."""
+        self.equipped_weapon = None
+        messagebox.showinfo("Weapon Unequipped", "You have unequipped your weapon!")
+
+    def goblin_defeated(self):
+        """Monster defeated, show congratulations and return to room options."""
+        messagebox.showinfo("Victory!", f"Congratulations, you have defeated the {self.monster_name}!")
+        self.show_room_options()
+
+    def character_death(self):
+        """Handle the character's death."""
+        messagebox.showinfo("You Died", "Better luck next time!")
+        self.character_health = 100  # Reset health
+        self.current_room = 'A1'  # Reset to start room
+        self.show_room_options()
+
+    def quit_game(self):
+        """Quit the game."""
+        self.root.quit()
+
+    def clear_window(self):
+        """Clear the current window."""
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+    def get_available_directions(self, room):
+        """Return available movement directions based on current room."""
+        directions = []
+        rows = ['A', 'B', 'C', 'D', 'E', 'F']
+        columns = ['1', '2', '3', '4']
+
+        row, col = room[0], room[1]
+        row_idx, col_idx = rows.index(row), columns.index(col)
+
+        if row_idx > 0:
+            directions.append("North")
+        if row_idx < len(rows) - 1:
+            directions.append("South")
+        if col_idx < len(columns) - 1:
+            directions.append("East")
+        if col_idx > 0:
+            directions.append("West")
+
+        return directions
+
+    def end_game(self):
+        """Display a message when the player wins by reaching the end room (F4)."""
+        messagebox.showinfo("Congratulations!", "You found the end room and won!!")
+        self.create_start_screen()  # Go back to the start screen to play again
+
+    def show_health_status(self):
+        """Show the current health of both the character and the monster."""
+        messagebox.showinfo("Current Health Status", 
+                            f"Your health: {self.character_health}\n"
+                            f"{self.monster_name}'s health: {self.goblin_health}")
+
+# Create Tkinter window
+root = tk.Tk()
+game = Game(root)
+root.mainloop()

@@ -350,3 +350,126 @@ if __name__ == "__main__":
 # 19	Map	A widget is being mapped, that is, made visible in the application. This will happen, for example, when you call the widget's .grid() method.
 
 # Unmap	A widget is being unmapped and is no longer visible. This happens, for example, when you use the widget's .grid_remove() method.
+
+
+
+
+
+
+
+roomlist = {
+    "A1":{"Name":"A1","South": "B2"},
+    "A2":{"Name":"A2", "South": "B3"},
+    "B1":{"Name":"B1","East": "B2","South": "C1"},
+    "B2":{"Name":"B2","East": "B3","West": "B1","South": "C2","North": "A1"},
+    "B3":{"Name":"B3", "North": "A2","West": "B2","Search": "C2"},
+    "C1":{"Name":"C1", "North": "B1", "South": "D1", "East":"C2"},
+    "C2":{"Name":"C2", "North": "B2", "South": "D2", "West": "C1", "Search": "B3"},
+    "D1":{"Name":"D1", "North": "C1", "South":"E2", "East": "D2"},
+    "D2":{"Name":"D2", "North":"C2", "South": "E3", "West":"D1"},
+    "E1":{"Name":"E1", "East": "E2"},
+    "E2":{"Name": "E2", "North": "D1", "East": "E3", "South": "F1", "West": "E1"},
+    "E3":{"Name": "E3", "North": "D2", "East": "E4", "West": "E2", "Search": "F1"},
+    "E4":{"Name": "E4", "West": "E3"},
+    "F1":{"Name": "F1", "North": "E2", "South": "G1", "Search": "E3"},
+    "G1":{"Name": "G1", "North": "F1"}
+}
+directions = ("North", "South", "East", "West", "Search")
+currentroom = roomlist["B3"]
+
+def move():
+    global currentroom
+    print("\n\nYou can check North, South, East, West, or Search")
+    print("Finished")
+    print(currentroom["Name"])   #take out later. debug
+    print("What direction would you like to move?: ")
+    direction = input().title()
+    if(direction in directions):
+        if(direction in currentroom.keys()):
+            print(f"You take the {direction} corridor")
+            newroom = currentroom[direction]   #set where destination is
+            for x in roomlist:   #check for location of destination
+                print(newroom) #this is a debug print
+                if x == newroom:    #loop through indiv room libraries
+                    print("HI")  #debug print
+                    currentroom = roomlist[x]
+                    print(" " + currentroom["Name"])
+
+
+
+            print(f"You are in room {currentroom["Name"]}")  #currentroom["Name"] is to ref name of current room
+        
+        else:
+            print("You can't move that way")
+            print(f"You are in room {currentroom['Name']}")
+            
+    else:
+        print("You can't move that way")
+        print(f"You are in room {currentroom['Name']}")
+
+move()
+
+
+
+
+
+
+roomlist = {
+    "A1": {"Name": "A1", "South": "B2"},
+    "A2": {"Name": "A2", "South": "B3"},
+    "B1": {"Name": "B1", "East": "B2", "South": "C1"},
+    "B2": {"Name": "B2", "East": "B3", "West": "B1", "South": "C2", "North": "A1"},
+    "B3": {"Name": "B3", "North": "A2", "West": "B2", "Search": "C2"},
+    "C1": {"Name": "C1", "North": "B1", "South": "D1", "East": "C2"},
+    "C2": {"Name": "C2", "North": "B2", "South": "D2", "West": "C1", "Search": "B3"},
+    "D1": {"Name": "D1", "North": "C1", "South": "E2", "East": "D2"},
+    "D2": {"Name": "D2", "North": "C2", "South": "E3", "West": "D1"},
+    "E1": {"Name": "E1", "East": "E2"},
+    "E2": {"Name": "E2", "North": "D1", "East": "E3", "South": "F1", "West": "E1"},
+    "E3": {"Name": "E3", "North": "D2", "East": "E4", "West": "E2", "Search": "F1"},
+    "E4": {"Name": "E4", "West": "E3"},
+    "F1": {"Name": "F1", "North": "E2", "South": "G1", "Search": "E3"},
+    "G1": {"Name": "G1", "North": "F1"}
+}
+
+# Define valid directions for movement
+directions = ("North", "South", "East", "West", "Search")
+
+# Initialize the starting room
+currentroom = roomlist["B3"]
+
+def move():
+    global currentroom
+
+    # Present the available directions to the user
+    print("\nYou can check North, South, East, West, or Search")
+    print(f"You are currently in room {currentroom['Name']}")
+
+    # Ask for user input on where to move
+    print("What direction would you like to move? (North, South, East, West, Search): ")
+    direction = input().title()
+
+    # Check if the direction is valid
+    if direction in directions:
+        # Check if the direction exists for the current room
+        if direction in currentroom:
+            print(f"You take the {direction} corridor...")
+
+            # Get the new room based on the direction
+            newroom_name = currentroom[direction]
+
+            # Update current room to the new room
+            currentroom = roomlist.get(newroom_name)
+
+            # Confirm the new room name
+            print(f"You are now in room {currentroom['Name']}.")
+
+        else:
+            print(f"You can't move {direction} from here.")
+            print(f"You are still in room {currentroom['Name']}.")
+    else:
+        print(f"{direction} is not a valid direction.")
+        print(f"You are still in room {currentroom['Name']}.")
+
+# Call the move function to initiate the movement logic
+move()

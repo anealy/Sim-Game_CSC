@@ -11,12 +11,14 @@ class Game:
         self.character_name = ""
         self.character_strength = 0
         self.character_health = 100
-        self.inventory = {'Long Sword': 0, 'Short Sword': 0, 'Potion': 0}
-        self.equipped_sword = None
+        self.inventory = {'Long Sword': 1, 'Bow and Arrow': 1, 'Potion': 3}  # Bow and Arrow replaces Short Sword
+        self.equipped_weapon = None
         self.current_room = 'A1'
         self.is_fighting = False
         self.goblin_health = 0
         self.goblin_damage = 0
+        self.monster_name = ""  # This will hold the randomized monster name
+        self.bow_and_arrow_turns = 0  # Track consecutive turns when using Bow and Arrow
 
         self.grid = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6',
                      'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
@@ -53,9 +55,10 @@ class Game:
 
         # Reset game state
         self.character_health = 100
-        self.inventory = {'Long Sword': 0, 'Short Sword': 0, 'Potion': 0}
-        self.equipped_sword = None
+        self.inventory = {'Long Sword': 1, 'Bow and Arrow': 1, 'Potion': 3}  # Start with 3 potions
+        self.equipped_weapon = None
         self.current_room = 'A1'
+        self.bow_and_arrow_turns = 0  # Reset Bow and Arrow turns
 
         self.show_room_options()
 
@@ -78,8 +81,12 @@ class Game:
         new_room = self.get_new_room(self.current_room, direction)
         self.current_room = new_room
 
-        # Check if there's a goblin in the room
-        if random.random() < 0.3:  # 30% chance for a goblin to spawn in a room
+        # Check if the player reached the end room (F4)
+        if self.current_room == 'F4':
+            self.end_game()
+
+        # Check if there's a monster in the room
+        elif random.random() < 0.25:  # 25% chance for a monster to spawn in a room
             self.enter_battle()
         else:
             self.show_room_options()
@@ -107,64 +114,80 @@ class Game:
         return current_room  # If out of bounds, return current room
 
     def enter_battle(self):
-        """Enter battle if a goblin spawns in the room."""
+        """Enter battle if a monster spawns in the room."""
         self.is_fighting = True
+        self.monster_name = random.choice(["Cave Spider", "Skeleton", "Zombie", "Goblin", "Troll", "Prof. Kuznicki"])
         self.goblin_health = 100
         self.goblin_damage = random.randint(0, 15)
+        self.bow_and_arrow_turns = 0  # Reset consecutive attacks for Bow and Arrow
         self.goblins_attack()
 
     def goblins_attack(self):
-        """Initiate combat between the character and the goblin."""
+        """Initiate combat between the character and the monster."""
         if self.character_health <= 0:
             self.character_death()
             return
 
         # Display fight screen
         self.clear_window()
-        tk.Label(self.root, text="You encountered a Goblin! Fight or Flee!", font=("Arial", 16)).pack(pady=20)
+        tk.Label(self.root, text=f"You encountered a {self.monster_name}!", font=("Arial", 16)).pack(pady=20)
 
         # Show inventory items and action buttons
         tk.Button(self.root, text="Attack", command=self.attack).pack(pady=5)
         tk.Button(self.root, text="Use Potion", command=self.use_potion).pack(pady=5)
         tk.Button(self.root, text="Equip Long Sword", command=self.equip_long_sword).pack(pady=5)
-        tk.Button(self.root, text="Equip Short Sword", command=self.equip_short_sword).pack(pady=5)
-        tk.Button(self.root, text="Unequip Sword", command=self.unequip_sword).pack(pady=5)
+        tk.Button(self.root, text="Equip Bow and Arrow", command=self.equip_bow_and_arrow).pack(pady=5)
+        tk.Button(self.root, text="Unequip Weapon", command=self.unequip_weapon).pack(pady=5)
 
         # Continue the fight if still alive
         if self.goblin_health <= 0:
             self.goblin_defeated()
 
     def attack(self):
-        """Perform an attack with the equipped sword."""
-        if self.equipped_sword is None:
-            messagebox.showinfo("No weapon equipped", "You need to equip a sword first!")
+        """Perform an attack with the equipped weapon."""
+        if self.equipped_weapon is None:
+            messagebox.showinfo("No weapon equipped", "You need to equip a weapon first!")
             return
 
-        # Calculate damage dealt
-        if self.equipped_sword == "Long Sword":
+        if self.equipped_weapon == "Bow and Arrow":
+            if self.bow_and_arrow_turns < 2:
+                # Calculate damage with Bow and Arrow
+                damage = random.randint(5, 10)
+                self.goblin_health -= damage
+                messagebox.showinfo(f"{self.monster_name} Attack", f"You attacked the {self.monster_name} for {damage} damage!")
+
+                self.bow_and_arrow_turns += 1  # Increment Bow and Arrow attack counter
+            else:
+                # After 2 attacks, switch to goblin's turn
+                self.bow_and_arrow_turns = 0
+                self.character_turn()
+        else:
+            # Calculate damage with Long Sword
             damage = random.randint(15, 20)
-        else:
-            damage = random.randint(10, 15)
+            self.goblin_health -= damage
+            messagebox.showinfo(f"{self.monster_name} Attack", f"You attacked the {self.monster_name} for {damage} damage!")
 
-        # Goblin takes damage
-        self.goblin_health -= damage
-        messagebox.showinfo("Attack", f"You attacked the Goblin for {damage} damage!")
+            # Show updated health after the attack
+            self.show_health_status()
 
-        if self.goblin_health <= 0:
-            self.goblin_defeated()
-        else:
-            self.character_turn()
+            if self.goblin_health <= 0:
+                self.goblin_defeated()
+            else:
+                self.character_turn()
 
     def character_turn(self):
-        """The goblin counterattacks."""
+        """The monster counterattacks."""
         if self.character_health <= 0:
             self.character_death()
             return
 
-        # Goblin attacks
+        # Monster attacks
         damage = random.randint(0, self.goblin_damage)
         self.character_health -= damage
-        messagebox.showinfo("Goblin Attacks", f"The Goblin attacks you for {damage} damage!")
+        messagebox.showinfo(f"{self.monster_name} Attacks", f"The {self.monster_name} attacks you for {damage} damage!")
+
+        # Show updated health after the monster's attack
+        self.show_health_status()
 
         if self.character_health <= 0:
             self.character_death()
@@ -180,8 +203,11 @@ class Game:
         # Heal the character
         healing = random.randint(10, 20)
         self.character_health += healing
-        self.inventory['Potion'] = 0
-        messagebox.showinfo("Potion Used", f"You healed for {healing} health!")
+        self.inventory['Potion'] -= 1  # Decrease the potion count
+        messagebox.showinfo("Potion Used", f"You healed for {healing} health!\nPotions left: {self.inventory['Potion']}")
+
+        # Show updated health after using potion
+        self.show_health_status()
 
         # Continue fight
         self.character_turn()
@@ -189,27 +215,27 @@ class Game:
     def equip_long_sword(self):
         """Equip the Long Sword."""
         if self.inventory['Long Sword'] > 0:
-            self.equipped_sword = "Long Sword"
-            messagebox.showinfo("Sword Equipped", "You have equipped the Long Sword!")
+            self.equipped_weapon = "Long Sword"
+            messagebox.showinfo("Weapon Equipped", "You have equipped the Long Sword!")
         else:
             messagebox.showinfo("No Long Sword", "You don't have a Long Sword in your inventory!")
 
-    def equip_short_sword(self):
-        """Equip the Short Sword."""
-        if self.inventory['Short Sword'] > 0:
-            self.equipped_sword = "Short Sword"
-            messagebox.showinfo("Sword Equipped", "You have equipped the Short Sword!")
+    def equip_bow_and_arrow(self):
+        """Equip the Bow and Arrow."""
+        if self.inventory['Bow and Arrow'] > 0:
+            self.equipped_weapon = "Bow and Arrow"
+            messagebox.showinfo("Weapon Equipped", "You have equipped the Bow and Arrow!")
         else:
-            messagebox.showinfo("No Short Sword", "You don't have a Short Sword in your inventory!")
+            messagebox.showinfo("No Bow and Arrow", "You don't have a Bow and Arrow in your inventory!")
 
-    def unequip_sword(self):
-        """Unequip the current sword."""
-        self.equipped_sword = None
-        messagebox.showinfo("Sword Unequipped", "You have unequipped your sword!")
+    def unequip_weapon(self):
+        """Unequip the current weapon."""
+        self.equipped_weapon = None
+        messagebox.showinfo("Weapon Unequipped", "You have unequipped your weapon!")
 
     def goblin_defeated(self):
-        """Goblin defeated, show congratulations and return to room options."""
-        messagebox.showinfo("Victory!", "Congratulations, you have defeated the Goblin!")
+        """Monster defeated, show congratulations and return to room options."""
+        messagebox.showinfo("Victory!", f"Congratulations, you have defeated the {self.monster_name}!")
         self.show_room_options()
 
     def character_death(self):
@@ -247,6 +273,17 @@ class Game:
             directions.append("West")
 
         return directions
+
+    def end_game(self):
+        """Display a message when the player wins by reaching the end room (F4)."""
+        messagebox.showinfo("Congratulations!", "You found the end room and won!!")
+        self.create_start_screen()  # Go back to the start screen to play again
+
+    def show_health_status(self):
+        """Show the current health of both the character and the monster."""
+        messagebox.showinfo("Current Health Status", 
+                            f"Your health: {self.character_health}\n"
+                            f"{self.monster_name}'s health: {self.goblin_health}")
 
 # Create Tkinter window
 root = tk.Tk()
